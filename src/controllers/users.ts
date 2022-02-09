@@ -1,16 +1,16 @@
-import userModel from "../models/user";
-import serviceModel from "../models/service";
+import userModel from '../models/user';
+import serviceModel from '../models/service';
 import {
   sendSignUpEmail,
   sendUpdaterPin,
   sendUpdateEmail,
-} from "../utils/mailer";
-import db from "../database/db";
-import genToken from "../utils/genToken";
-import { ExpressHandler } from "../types";
+} from '../utils/mailer';
+import db from '../database/db';
+import genToken from '../utils/genToken';
+import { ExpressHandler } from '../types';
 
 // @desc    Get all users
-// @route   GET /api/v3/users
+// @route   GET /api/v5/users
 // @access  Private
 export const getUsers: ExpressHandler = async (req, res, next) => {
   try {
@@ -23,7 +23,7 @@ export const getUsers: ExpressHandler = async (req, res, next) => {
 };
 
 // @desc    Get single user
-// @route   GET /api/v3/users/:id
+// @route   GET /api/v5/users/:id
 // @access  Private
 export const getUser: ExpressHandler = async (req, res, next) => {
   try {
@@ -43,7 +43,7 @@ export const getUser: ExpressHandler = async (req, res, next) => {
 };
 
 // @desc    Create new user
-// @route   POST /api/v3/users
+// @route   POST /api/v5/users
 // @access  Public
 export const createUser: ExpressHandler = async (req, res, next) => {
   const session = await db.startSession();
@@ -77,32 +77,36 @@ export const createUser: ExpressHandler = async (req, res, next) => {
 
     await session.commitTransaction();
     session.endSession();
-    req.io?.emit("userUpdate");
-    sendSignUpEmail(
-      req.body.email,
-      req.body.serviceTime,
-      req.body.userseats,
-      req.body.userpin
-    );
+    req.io?.emit('userUpdate');
+    // sendSignUpEmail(
+    //   req.body.email,
+    //   req.body.serviceTime,
+    //   req.body.userseats,
+    //   req.body.userpin
+    // );
+    console.log('EMAILED', req.body.email);
+
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
-    console.log(error);
     await session.abortTransaction();
     session.endSession();
     next(error);
   }
 };
 
+// @desc    Update single user
+// @route   POST /api/v5/users/utils
+// @access  Private
 export const getUserUpdaterPin: ExpressHandler = async (req, res, next) => {
-  // req.body.email
   try {
-    if (!req.body.email) {
-      throw new Error("missing data");
+    const useremail = req.body.email;
+    if (!useremail) {
+      throw new Error();
     }
-    // find user by their updater pin
-    const user = await userModel.findOne({ email: req.body.email });
+
+    const user = await userModel.findOne({ email: useremail });
     if (!user) {
-      throw new Error("user not found");
+      throw new Error('user not found');
     }
 
     sendUpdaterPin(user.email, user.userpin);
@@ -113,7 +117,7 @@ export const getUserUpdaterPin: ExpressHandler = async (req, res, next) => {
 };
 
 // @desc    Update single user
-// @route   POST /api/v3/users/updater/:pin
+// @route   PUT /api/v5/users/utils/:userpin
 // @access  Private
 export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
   req,
@@ -124,14 +128,19 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
   session.startTransaction();
 
   try {
-    if (!req.body.newServiceId || !req.body.userpin) {
-      throw new Error("missing data");
+    const userpin = parseInt(req.params.userpin);
+    if (!userpin) {
+      throw new Error('missing userpin');
+    }
+
+    if (!req.body.newServiceId || !req.body.userseats) {
+      throw new Error('missing data');
     }
 
     // find user by their updater pin
-    const user = await userModel.findOne({ userpin: req.body.userpin });
+    const user = await userModel.findOne({ userpin: userpin });
     if (!user) {
-      throw new Error("user with that pin not found");
+      throw new Error('user with that pin not found');
     }
 
     // find the service the user is 'currently' signed up for
@@ -140,7 +149,7 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
       throw new Error();
     }
 
-    if (oldService._id == req.body.newServiceId) {
+    if (oldService._id.toString() == req.body.newServiceId) {
       oldService.seats =
         oldService.seats + (user.userseats - req.body.userseats);
       await oldService.save({ session });
@@ -165,13 +174,8 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
     await user.save({ session });
     await session.commitTransaction();
     session.endSession();
-    req.io?.emit("userUpdate");
-    sendUpdateEmail(
-      user.email,
-      user.serviceTime,
-      req.body.userseats,
-      req.body.userpin
-    );
+    req.io?.emit('userUpdate');
+    sendUpdateEmail(user.email, user.serviceTime, req.body.userseats, userpin);
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     await session.abortTransaction();
@@ -181,14 +185,19 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
 };
 
 // @desc    Delete single user
-// @route   DELETE /api/v3/users/:id
+// @route   DELETE /api/v5/users/:id
 // @access  Private
 export const deleteUser: ExpressHandler = async (req, res, next) => {
   const session = await db.startSession();
   session.startTransaction();
 
   try {
-    const user = await userModel.findByIdAndDelete([req.params.id], {
+    const userid = req.params.id;
+    if (!userid) {
+      throw new Error('missing id');
+    }
+
+    const user = await userModel.findByIdAndDelete([userid], {
       session,
     });
     if (!user) {
@@ -205,7 +214,7 @@ export const deleteUser: ExpressHandler = async (req, res, next) => {
 
     await session.commitTransaction();
     session.endSession();
-    req.io?.emit("userUpdate");
+    req.io?.emit('userUpdate');
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
     await session.abortTransaction();
@@ -214,6 +223,9 @@ export const deleteUser: ExpressHandler = async (req, res, next) => {
   }
 };
 
+// @desc    Delete single user
+// @route   DELETE /api/v5/users/utils/:userpin
+// @access  Private
 export const deleteUserByUpdaterPin: ExpressHandler = async (
   req,
   res,
@@ -222,17 +234,20 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
   const session = await db.startSession();
   session.startTransaction();
 
-  console.log(req.params.userpin);
-
   try {
+    const userpin = parseInt(req.params.userpin);
+    if (!userpin) {
+      throw new Error('missing userpin');
+    }
+
     const user = await userModel.findOneAndDelete(
       {
-        userpin: req.params.userpin,
+        userpin: userpin,
       },
       { session }
     );
     if (!user) {
-      throw new Error("user with that pin not found");
+      throw new Error('user with that pin not found');
     }
 
     const service = await serviceModel.findById(user.serviceId);
@@ -245,7 +260,7 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
 
     await session.commitTransaction();
     session.endSession();
-    req.io?.emit("userUpdate");
+    req.io?.emit('userUpdate');
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
     await session.abortTransaction();
@@ -255,7 +270,7 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
 };
 
 // @desc    Get user stats
-// @route   GET /api/v3/users/stats
+// @route   GET /api/v5/users/stats
 // @access  Private
 export const getStatistics: ExpressHandler = async (req, res, next) => {
   let statsObject: { childrensStatistics: any[] } = { childrensStatistics: [] };
@@ -274,13 +289,13 @@ export const getStatistics: ExpressHandler = async (req, res, next) => {
         { $match: { serviceId: `${service._id}` } },
         {
           $group: {
-            _id: "",
-            nursery: { $sum: "$nursery" },
-            twoYears: { $sum: "$twoYears" },
-            threeYears: { $sum: "$threeYears" },
-            fourYears: { $sum: "$fourYears" },
-            kindergarten: { $sum: "$kindergarten" },
-            wildLife: { $sum: "$wildLife" },
+            _id: '',
+            nursery: { $sum: '$nursery' },
+            twoYears: { $sum: '$twoYears' },
+            threeYears: { $sum: '$threeYears' },
+            fourYears: { $sum: '$fourYears' },
+            kindergarten: { $sum: '$kindergarten' },
+            wildLife: { $sum: '$wildLife' },
           },
         },
         {
@@ -295,13 +310,13 @@ export const getStatistics: ExpressHandler = async (req, res, next) => {
           },
         },
       ]);
-      const serviceTime = service.time.toLocaleDateString("en-US", {
-        timeZone: "America/Los_Angeles",
-        month: "long",
-        weekday: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
+      const serviceTime = service.time.toLocaleDateString('en-US', {
+        timeZone: 'America/Los_Angeles',
+        month: 'long',
+        weekday: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
       });
       statsObject.childrensStatistics.push({
         service: serviceTime,
@@ -311,7 +326,6 @@ export const getStatistics: ExpressHandler = async (req, res, next) => {
 
     res.status(200).json(statsObject);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ success: false, error });
   }
 };

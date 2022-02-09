@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose";
-import validator from "validator";
+import { model, Schema } from 'mongoose';
+import validator from 'validator';
 
 interface IUser {
   name: string;
@@ -33,7 +33,7 @@ const schema = new Schema<IUser>(
       unique: true,
       validate(value: string) {
         if (!validator.isEmail(value)) {
-          throw new Error("email is invalid");
+          throw new Error('email is invalid');
         }
       },
     },
@@ -53,7 +53,7 @@ const schema = new Schema<IUser>(
       max: 10,
       validate(value: number) {
         if (value < 0 && value > 10) {
-          throw new Error("Must be greater than 0 but less than 10");
+          throw new Error('Must be greater than 0 but less than 10');
         }
       },
     },
@@ -71,6 +71,6 @@ const schema = new Schema<IUser>(
   { timestamps: true }
 );
 
-const userModel = model<IUser>("User", schema);
+const userModel = model<IUser>('User', schema);
 
 export default userModel;

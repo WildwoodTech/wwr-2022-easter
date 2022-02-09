@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import {
   getUsers,
   getUser,
@@ -8,25 +8,28 @@ import {
   deleteUserByUpdaterPin,
   deleteUser,
   getStatistics,
-} from "../controllers/users";
+} from '../controllers/users';
 
 // Middleware
-import authentication from "../middleware/authentication";
-import statsAuthentication from "../middleware/statsAuthentication";
+import authentication from '../middleware/authentication';
+import statsAuthentication from '../middleware/statsAuthentication';
 
 const userRouter = express.Router();
 
-userRouter.route("/").get(authentication, getUsers).post(createUser);
+userRouter.route('/').get(authentication, getUsers).post(createUser);
 
-userRouter.route("/stats").post(statsAuthentication, getStatistics);
+userRouter.route('/stats').post(statsAuthentication, getStatistics);
 
 userRouter
-  .route("/:id")
+  .route('/:id')
   .get(authentication, getUser)
   .delete(authentication, deleteUser);
 
-userRouter.route("/requester").post(getUserUpdaterPin);
-userRouter.route("/updater").post(updateUserSeatsByUpdaterPin);
-userRouter.route("/deleter/:userpin").delete(deleteUserByUpdaterPin);
+userRouter.route('/utils').post(getUserUpdaterPin);
+
+userRouter
+  .route('/utils/:userpin')
+  .put(updateUserSeatsByUpdaterPin)
+  .delete(deleteUserByUpdaterPin);
 
 export default userRouter;

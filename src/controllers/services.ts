@@ -1,9 +1,9 @@
-import serviceModel from "../models/service";
-import db from "../database/db";
-import { ExpressHandler } from "../types";
+import serviceModel from '../models/service';
+import db from '../database/db';
+import { ExpressHandler } from '../types';
 
 // @desc    Get all services
-// @route   GET /api/v3/services
+// @route   GET /api/v5/services
 // @access  Public
 export const getServices: ExpressHandler = async (req, res, next) => {
   try {
@@ -15,7 +15,7 @@ export const getServices: ExpressHandler = async (req, res, next) => {
 };
 
 // @desc    Get single service
-// @route   GET /api/v3/services/:id
+// @route   GET /api/v5/services/:id
 // @access  Private
 export const getService: ExpressHandler = async (req, res, next) => {
   try {
@@ -35,7 +35,7 @@ export const getService: ExpressHandler = async (req, res, next) => {
 };
 
 // @desc    Create new service
-// @route   POST /api/v3/services
+// @route   POST /api/v5/services
 // @access  Private
 export const createService: ExpressHandler = async (req, res, next) => {
   try {
@@ -48,7 +48,7 @@ export const createService: ExpressHandler = async (req, res, next) => {
 };
 
 // @desc    Update single service
-// @route   PUT /api/v3/services/:id
+// @route   PUT /api/v5/services/:id
 // @access  Private
 export const updateService: ExpressHandler = async (req, res, next) => {
   try {
@@ -75,7 +75,7 @@ export const updateService: ExpressHandler = async (req, res, next) => {
 };
 
 // @desc    Delete single service
-// @route   DELETE /api/v3/services/:id
+// @route   DELETE /api/v5/services/:id
 // @access  Private
 export const deleteService: ExpressHandler = async (req, res, next) => {
   try {

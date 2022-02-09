@@ -1,6 +1,6 @@
-import { NextFunction, Response } from "express";
-import ICustomRequest from "../types";
-import ErrorResponse from "../utils/errorResponse";
+import { NextFunction, Response } from 'express';
+import ICustomRequest from '../types';
+import ErrorResponse from '../utils/errorResponse';
 
 const errorHandler = (
   err: any,
@@ -17,38 +17,38 @@ const errorHandler = (
   // console.log(err.name);
   // console.log(err.message);
 
-  if (err.message === "user not found") {
+  if (err.message === 'user not found') {
     const message = `user not found`;
     error = new ErrorResponse(message, 404);
   }
 
-  if (err.name === "CastError") {
+  if (err.name === 'CastError') {
     // Mongoose bad ObjectID
-    const message = `Resource not found with id of ${err.value}`;
+    const message = `resource not found with id of ${err.value}`;
     error = new ErrorResponse(message, 404);
   }
 
-  if (err.name == "ValidationError") {
+  if (err.name == 'ValidationError') {
     // Mongoose Validation Error
     const message = error.message;
     error = new ErrorResponse(message, 406);
   }
 
   // Mongoose Validation Error
-  if (err._message == "Service validation failed") {
-    const message = `Error!`;
+  if (err._message == 'Service validation failed') {
+    const message = `error`;
     error = new ErrorResponse(message, 405);
   }
 
   // Mongoose Duplicate Error
   if (err.code === 11000) {
-    const message = `Error`;
+    const message = `error`;
     error = new ErrorResponse(message, 409);
   }
 
   res.status(error.statusCode || 404).json({
     success: false,
-    error: error.message || "Server Error",
+    error: error.message || 'server error',
   });
 };
 
