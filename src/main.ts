@@ -17,10 +17,9 @@ dotenv.config();
 // Connect to database
 import "./database/db";
 
-// Route files
-const users = require("./routes/users");
-const services = require("./routes/services");
-// const admins = require('./routes/admins');
+// Routers
+import userRouter from "./routes/users";
+import serviceRouter from "./routes/services";
 
 const app = express();
 const server = http.createServer(app);
@@ -29,6 +28,7 @@ const io = new socketio.Server(server);
 // Pass socket to req
 app.use(async (req: ICustomRequest, res, next) => {
   req.io = io;
+  io.emit("userUpdate");
   next();
 });
 
@@ -53,9 +53,8 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "./frontend/build")));
 
 // Mount routers
-app.use("/api/v3/users", users);
-app.use("/api/v3/services", services);
-// app.use('/api/v3/admins', admins);
+app.use("/api/v5/users", userRouter);
+app.use("/api/v5/services", serviceRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./frontend/build/index.html"));

@@ -1,26 +1,23 @@
-const express = require('express');
-const {
+import express from "express";
+import {
   getServices,
   getService,
   createService,
   updateService,
-  deleteService
-} = require('../controllers/services');
+  deleteService,
+} from "../controllers/services";
 
 // Middleware
-const authentication = require('../middleware/authentication');
+import authentication from "../middleware/authentication";
 
-const router = new express.Router();
+const serviceRouter = express.Router();
 
-router
-  .route('/')
-  .get(getServices)
-  .post(authentication, createService);
+serviceRouter.route("/").get(getServices).post(authentication, createService);
 
-router
-  .route('/:id')
+serviceRouter
+  .route("/:id")
   .get(authentication, getService)
   .patch(authentication, updateService)
   .delete(authentication, deleteService);
 
-module.exports = router;
+export default serviceRouter;

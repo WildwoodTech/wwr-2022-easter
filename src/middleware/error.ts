@@ -1,6 +1,13 @@
+import { NextFunction, Response } from "express";
+import ICustomRequest from "../types";
 import ErrorResponse from "../utils/errorResponse";
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (
+  err: any,
+  req: ICustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
   let error = { ...err };
 
   error.message = err.message;

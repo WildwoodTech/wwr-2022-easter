@@ -1,4 +1,4 @@
-import serviceModel from "../models/Service";
+import serviceModel from "../models/service";
 import db from "../database/db";
 import { ExpressHandler } from "../types";
 

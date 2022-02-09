@@ -1,5 +1,5 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getUsers,
   getUser,
   createUser,
@@ -8,25 +8,25 @@ const {
   deleteUserByUpdaterPin,
   deleteUser,
   getStatistics,
-} = require("../controllers/users");
+} from "../controllers/users";
 
 // Middleware
-const authentication = require("../middleware/authentication");
-const statsAuthentication = require("../middleware/statsAuthentication");
+import authentication from "../middleware/authentication";
+import statsAuthentication from "../middleware/statsAuthentication";
 
-const router = new express.Router();
+const userRouter = express.Router();
 
-router.route("/").get(authentication, getUsers).post(createUser);
+userRouter.route("/").get(authentication, getUsers).post(createUser);
 
-router.route("/stats").post(statsAuthentication, getStatistics);
+userRouter.route("/stats").post(statsAuthentication, getStatistics);
 
-router
+userRouter
   .route("/:id")
   .get(authentication, getUser)
   .delete(authentication, deleteUser);
 
-router.route("/requester").post(getUserUpdaterPin);
-router.route("/updater").post(updateUserSeatsByUpdaterPin);
-router.route("/deleter/:pin").delete(deleteUserByUpdaterPin);
+userRouter.route("/requester").post(getUserUpdaterPin);
+userRouter.route("/updater").post(updateUserSeatsByUpdaterPin);
+userRouter.route("/deleter/:userpin").delete(deleteUserByUpdaterPin);
 
-module.exports = router;
+export default userRouter;

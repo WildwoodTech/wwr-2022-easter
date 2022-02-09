@@ -1,55 +1,76 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 import validator from "validator";
 
-// Custom casting; empty string to false
-mongoose.Schema.Types.Boolean.convertToFalse.add("");
+interface IUser {
+  name: string;
+  email: string;
+  serviceId: string;
+  serviceTime: Date;
+  userseats: number;
+  userpin: number;
+  nursery: number;
+  twoyears: number;
+  threeyears: number;
+  fouryears: number;
+  kindergarten: number;
+  wildlife: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-const userModel = mongoose.model("User", {
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    lowercase: true,
-    unique: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error("email is invalid");
-      }
+const schema = new Schema<IUser>(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      validate(value: string) {
+        if (!validator.isEmail(value)) {
+          throw new Error("email is invalid");
+        }
+      },
+    },
+    serviceTime: {
+      type: Date,
+      required: true,
+    },
+    serviceId: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    userseats: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 10,
+      validate(value: number) {
+        if (value < 0 && value > 10) {
+          throw new Error("Must be greater than 0 but less than 10");
+        }
+      },
+    },
+    userpin: {
+      type: Number,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+    },
+    updatedAt: {
+      type: Date,
     },
   },
-  serviceDate: {
-    type: String,
-    required: true,
-  },
-  serviceId: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  seats: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 10,
-    validate(value) {
-      if (value < 0 && value > 10) {
-        throw new Error("Must be greater than 0 but less than 10");
-      }
-    },
-  },
-  updaterPin: {
-    type: Number,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
+
+const userModel = model<IUser>("User", schema);
 
 export default userModel;

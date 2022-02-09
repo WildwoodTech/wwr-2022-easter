@@ -54,31 +54,35 @@ export const createUser: ExpressHandler = async (req, res, next) => {
     let notUnique = true;
     while (notUnique) {
       generatedToken = genToken();
-      let found = await userModel.findOne({ updaterPin: generatedToken });
+      let found = await userModel.findOne({ userpin: generatedToken });
+
       if (!found) {
         notUnique = false;
       }
     }
-    req.body.updaterPin = generatedToken;
 
-    const user = await userModel.create([req.body], { session });
+    req.body.userpin = generatedToken;
 
     const service = await serviceModel.findById(req.body.serviceId);
-    service.seats = service.seats - req.body.seats;
-    await service.save({ session });
-
     if (!service) {
       throw new Error();
     }
 
+    req.body.serviceTime = service.time;
+
+    const user = await userModel.create([req.body], { session });
+
+    service.seats = service.seats - req.body.userseats;
+    await service.save({ session });
+
     await session.commitTransaction();
     session.endSession();
-    req.io.emit("userUpdate");
+    req.io?.emit("userUpdate");
     sendSignUpEmail(
       req.body.email,
-      req.body.serviceDate,
-      req.body.seats,
-      req.body.updaterPin
+      req.body.serviceTime,
+      req.body.userseats,
+      req.body.userpin
     );
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
@@ -101,7 +105,7 @@ export const getUserUpdaterPin: ExpressHandler = async (req, res, next) => {
       throw new Error("user not found");
     }
 
-    sendUpdaterPin(user.email, user.updaterPin);
+    sendUpdaterPin(user.email, user.userpin);
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     next(error);
@@ -120,12 +124,12 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
   session.startTransaction();
 
   try {
-    if (!req.body.newServiceId || !req.body.updaterPin) {
+    if (!req.body.newServiceId || !req.body.userpin) {
       throw new Error("missing data");
     }
 
     // find user by their updater pin
-    const user = await userModel.findOne({ updaterPin: req.body.updaterPin });
+    const user = await userModel.findOne({ userpin: req.body.userpin });
     if (!user) {
       throw new Error("user with that pin not found");
     }
@@ -137,7 +141,8 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
     }
 
     if (oldService._id == req.body.newServiceId) {
-      oldService.seats = oldService.seats + (user.seats - req.body.seats);
+      oldService.seats =
+        oldService.seats + (user.userseats - req.body.userseats);
       await oldService.save({ session });
     } else {
       // find the new service the user wants to go to; just checked if 'same'
@@ -146,26 +151,26 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
         throw new Error();
       }
 
-      oldService.seats += user.seats;
+      oldService.seats += user.userseats;
       await oldService.save({ session });
 
-      newService.seats -= req.body.seats;
+      newService.seats -= req.body.userseats;
       await newService.save({ session });
 
-      user.serviceDate = newService.date;
+      user.serviceTime = newService.time;
     }
 
-    user.seats = req.body.seats;
+    user.userseats = req.body.userseats;
     user.serviceId = req.body.newServiceId;
     await user.save({ session });
     await session.commitTransaction();
     session.endSession();
-    req.io.emit("userUpdate");
+    req.io?.emit("userUpdate");
     sendUpdateEmail(
       user.email,
-      user.serviceDate,
-      req.body.seats,
-      req.body.updaterPin
+      user.serviceTime,
+      req.body.userseats,
+      req.body.userpin
     );
     res.status(200).json({ success: true, data: user });
   } catch (error) {
@@ -195,12 +200,12 @@ export const deleteUser: ExpressHandler = async (req, res, next) => {
       throw new Error();
     }
 
-    service.seats = service.seats + user.seats;
+    service.seats = service.seats + user.userseats;
     await service.save({ session });
 
     await session.commitTransaction();
     session.endSession();
-    req.io.emit("userUpdate");
+    req.io?.emit("userUpdate");
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
     await session.abortTransaction();
@@ -217,12 +222,12 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
   const session = await db.startSession();
   session.startTransaction();
 
-  console.log(req.params.pin);
+  console.log(req.params.userpin);
 
   try {
     const user = await userModel.findOneAndDelete(
       {
-        updaterPin: req.params.pin,
+        userpin: req.params.userpin,
       },
       { session }
     );
@@ -235,12 +240,12 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
       throw new Error();
     }
 
-    service.seats = service.seats + user.seats;
+    service.seats = service.seats + user.userseats;
     await service.save({ session });
 
     await session.commitTransaction();
     session.endSession();
-    req.io.emit("userUpdate");
+    req.io?.emit("userUpdate");
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
     await session.abortTransaction();
@@ -253,7 +258,7 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
 // @route   GET /api/v3/users/stats
 // @access  Private
 export const getStatistics: ExpressHandler = async (req, res, next) => {
-  let statsObject = { childrensStatistics: [] };
+  let statsObject: { childrensStatistics: any[] } = { childrensStatistics: [] };
   try {
     // Get seat total
     // const seatTotal = await User.aggregate([
@@ -290,7 +295,7 @@ export const getStatistics: ExpressHandler = async (req, res, next) => {
           },
         },
       ]);
-      const serviceTime = service.date.toLocaleDateString("en-US", {
+      const serviceTime = service.time.toLocaleDateString("en-US", {
         timeZone: "America/Los_Angeles",
         month: "long",
         weekday: "long",

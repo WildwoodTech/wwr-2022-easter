@@ -1,7 +1,13 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-const serviceModel = mongoose.model("Service", {
-  date: {
+interface IService {
+  time: Date;
+  seats: number;
+  createdAt: Date;
+}
+
+const schema = new Schema<IService>({
+  time: {
     type: Date,
     required: true,
     unique: true,
@@ -11,7 +17,7 @@ const serviceModel = mongoose.model("Service", {
     required: true,
     trim: true,
     min: 0,
-    validate(value) {
+    validate(value: number) {
       if (value < 0) {
         throw new Error("Must be a postive number");
       }
@@ -22,5 +28,7 @@ const serviceModel = mongoose.model("Service", {
     default: Date.now,
   },
 });
+
+const serviceModel = model<IService>("Service", schema);
 
 export default serviceModel;

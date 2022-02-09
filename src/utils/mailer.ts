@@ -1,19 +1,19 @@
 import fs from "fs";
 import sgMail from "@sendgrid/mail";
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(<string>process.env.SENDGRID_API_KEY);
 
-const timeSuffix = (n) => {
+const timeSuffix = (n: any) => {
   return [, "st", "nd", "rd"][(n / 10) % 10 ^ 1 && n % 10] || "th";
 };
 
 export const sendSignUpEmail = async (
-  email,
-  serviceDate,
-  seats,
-  updaterPin
+  email: string,
+  serviceTime: Date,
+  seats: number,
+  userpin: number
 ) => {
-  const date = new Date(serviceDate);
+  const date = new Date(serviceTime);
   const msg = {
     to: email,
     from: "Wildwood Christmas <mailer@wildwoodchristmas.com>",
@@ -86,7 +86,7 @@ export const sendSignUpEmail = async (
       minute: "2-digit",
     })} service.</p>
       <br />
-      <p>Your Updater Pin: <span style="color:#9c5e3c;font-weight:bold;">${updaterPin}</span></p>
+      <p>Your Updater Pin: <span style="color:#9c5e3c;font-weight:bold;">${userpin}</span></p>
       <p style="font-size:16px;">Use this pin number to update or remove your current selection</p>
     </div>
   </body>`,
@@ -98,7 +98,7 @@ export const sendSignUpEmail = async (
   }
 };
 
-export const sendUpdaterPin = async (email, updaterPin) => {
+export const sendUpdaterPin = async (email: string, userpin: number) => {
   const msg = {
     to: email,
     from: "Wildwood Christmas <mailer@wildwoodchristmas.com>",
@@ -139,7 +139,7 @@ export const sendUpdaterPin = async (email, updaterPin) => {
   </head>
   <body class="body">
     <div class="text">
-      <p>Your Updater Pin: <span style="color:#9c5e3c;font-weight:bold;">${updaterPin}</span></p>
+      <p>Your Updater Pin: <span style="color:#9c5e3c;font-weight:bold;">${userpin}</span></p>
     </div>
   </body>`,
   };
@@ -151,12 +151,12 @@ export const sendUpdaterPin = async (email, updaterPin) => {
 };
 
 export const sendUpdateEmail = async (
-  email,
-  serviceDate,
-  seats,
-  updaterPin
+  email: string,
+  serviceTime: Date,
+  seats: number,
+  userpin: number
 ) => {
-  const date = new Date(serviceDate);
+  const date = new Date(serviceTime);
   const msg = {
     to: email,
     from: "Wildwood Christmas <mailer@wildwoodchristmas.com>",
@@ -229,7 +229,7 @@ export const sendUpdateEmail = async (
       minute: "2-digit",
     })} service.</p>
         <br />
-        <p>Your Updater Pin: <span style="color:#9c5e3c;font-weight:bold;">${updaterPin}</span></p>
+        <p>Your Updater Pin: <span style="color:#9c5e3c;font-weight:bold;">${userpin}</span></p>
       </div>
   </body>`,
   };
