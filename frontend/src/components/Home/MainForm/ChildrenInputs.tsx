@@ -7,100 +7,118 @@ interface Props {
 const ChildrenInputs = (props: Props) => {
   return (
     <>
-      <label htmlFor="nursery">How many 0 - 23 months old?</label>
+      <label className="label__control" htmlFor="nursery">
+        How many 0 - 23 months old?
+      </label>
       <select
+        className={`select__control`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
         name="nursery"
-        defaultValue=""
+        defaultValue={0}
         required
       >
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value={0}>0</option>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
       </select>
 
-      <label htmlFor="twoyears">How many 2 year olds?</label>
+      <label className="label__control" htmlFor="twoyears">
+        How many 2 year olds?
+      </label>
       <select
+        className={`select__control`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
         name="twoyears"
-        defaultValue=""
+        defaultValue={0}
         required
       >
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value={0}>0</option>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
       </select>
 
-      <label htmlFor="threeyears">How many 3 year olds?</label>
+      <label className="label__control" htmlFor="threeyears">
+        How many 3 year olds?
+      </label>
       <select
+        className={`select__control`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
         name="threeyears"
-        defaultValue=""
+        defaultValue={0}
         required
       >
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value={0}>0</option>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
       </select>
 
-      <label htmlFor="fouryears">How many 4 year olds?</label>
+      <label className="label__control" htmlFor="fouryears">
+        How many 4 year olds?
+      </label>
       <select
+        className={`select__control`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
         name="fouryears"
-        defaultValue=""
+        defaultValue={0}
         required
       >
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value={0}>0</option>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
       </select>
 
-      <label htmlFor="kindergarten">How many 5 years old - Kindergarten?</label>
+      <label className="label__control" htmlFor="kindergarten">
+        How many 5 years old - Kindergarten?
+      </label>
       <select
+        className={`select__control`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
         name="kindergarten"
-        defaultValue=""
+        defaultValue={0}
         required
       >
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value={0}>0</option>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
       </select>
 
-      <label htmlFor="wildlife">How many in 1st - 5th grade?</label>
+      <label className="label__control" htmlFor="wildlife">
+        How many in 1st - 5th grade?
+      </label>
       <select
+        className={`select__control`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
         name="wildlife"
-        defaultValue=""
+        defaultValue={0}
         required
       >
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
+        <option value={0}>0</option>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
       </select>
     </>
   );

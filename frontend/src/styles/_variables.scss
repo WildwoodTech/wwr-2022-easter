@@ -9,8 +9,40 @@ $white: #ffffff;
 $teal: #2f3847;
 $green: #384937;
 
-$mainbackground: #2c50ee;
+$main-font: #ffffff;
+
+$mainbackground: #2c4270;
+$input-box-shadow: #566786;
+$select-box-shadow: #566786;
+$button-background: #03132b;
+$button-background-hover: #2f3847;
+$button-border: #03132b;
+$button-border-focus: #566786;
+$button-border-hover: #566786;
+
+$form-success-color: #4f63ff;
+$form-success-border: #4f63ff;
+$form-error-color: #ff5252;
+$form-error-border: #ff5252;
 
 $service-selector-background: #7b8fe9;
-$service-selector-background-hover: #0020b1;
+$service-selector-background-hover: #5f7af3;
+$service-selector-background-active: #3a5bf0;
 $service-selector-background-disabled: #a3a3a357;
+$service-selector-border: #ffffff49;
+
+$utility-container-background: #0e0e0e33;
+$utility-button-color: #412e16;
+$utility-button-color-hover: #03132b;
+$utility-button-background: #d4c8b8;
+$utility-button-background-focus: #dd9d4a;
+$utility-button-background-hover: #dd9d4a;
+$utility-button-border-color: #d4c8b8;
+$utility-button-border-color-focus: #e7dd4a;
+$utility-button-border-color-hover: #03132b;
+
+$utility-checkbox-color: #03132b;
+$utility-checkbox-background-before: #dfd6ca93;
+$utility-checkbox-border-before: #dd9d4a;
+$utility-checkbox-border-checked: #dd9d4a;
+$utility-checkbox-border-disabled: #03132b;

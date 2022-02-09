@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { Server } from 'socket.io';
+import { Request, Response, NextFunction } from "express";
+import { Server } from "socket.io";
 
 export default interface ICustomRequest extends Request {
   io?: Server;
@@ -17,6 +17,8 @@ export default interface ICustomRequest extends Request {
     fouryears?: number;
     kindergarten?: number;
     wildlife?: number;
+    password?: string;
+    pin?: number;
   };
 }
 

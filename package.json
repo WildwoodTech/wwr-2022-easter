@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "Wildwood Reservation Site",
   "scripts": {
-    "build": "pnpm i && cd frontend && pnpm i && pnpm build",
+    "build": "npm i && cd frontend && npm i && npm run build",
     "start": "cross-env NODE_ENV=production ts-node src/main.ts",
     "dev": "concurrently \"nodemon src/main.ts\" \"cd frontend && npm start\"",
     "dev-api": "nodemon --ignore frontend"

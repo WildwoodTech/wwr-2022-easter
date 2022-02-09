@@ -30,15 +30,11 @@ const MainApp = () => {
     getServicePayload();
     const socket = socketclient();
     socket.on("userUpdate", () => {
-      console.log("SOCKET!");
-
       getServicePayload();
     });
   }, []);
 
   const getServicePayload = async () => {
-    console.log("triggered!");
-
     try {
       const services = await getServicesAPI();
       setServicesPayload(services);
@@ -69,27 +65,39 @@ const MainApp = () => {
             mainAppDispatch={mainAppDispatch}
           />
         </div>
+        {mainAppState.formStatusMessage && (
+          <div>
+            <p>{mainAppState.formStatusMessage}</p>
+          </div>
+        )}
         {mainFormState.serviceId && (
-          <>
+          <div className="home_main-form-inputs" id="home_main-form-inputs">
             <Inputs
               mainFormState={mainFormState}
               mainFormDispatch={mainFormDispatch}
             />
-            <button
-              onClick={(e) => {
-                e.preventDefault();
+            <label className="label__control" htmlFor="children">
+              Bringing Children?
+            </label>
+            <p>Sixth graders and older will attent main service</p>
+            <input
+              name="children"
+              checked={mainFormState.children}
+              type="checkbox"
+              className=""
+              onChange={() => {
                 mainFormDispatch({
                   type: "TOGGLE CHILDERN FORM",
                 });
               }}
-            >
-              Children!
-            </button>
+            ></input>
             {mainFormState.children && (
               <ChildrenInputs mainFormDispatch={mainFormDispatch} />
             )}
-            <button type="submit">Reserve</button>
-          </>
+            <button className="button__control" type="submit">
+              Reserve
+            </button>
+          </div>
         )}
       </form>
       <UtilityForms

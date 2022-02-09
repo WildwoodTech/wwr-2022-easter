@@ -14,31 +14,36 @@ interface Props {
 
 const UtilityForms = (props: Props) => {
   return (
-    <>
-      <button
-        onClick={() => {
-          userUtilFormHandler("updater", props.mainAppDispatch);
-          mainFormClearHandler(props.mainFormDispatch);
-        }}
-      >
-        Update Your Selection
-      </button>
-      <button
-        onClick={() => {
-          userUtilFormHandler("deleter", props.mainAppDispatch);
-          mainFormClearHandler(props.mainFormDispatch);
-        }}
-      >
-        Remove Your Spot
-      </button>
-      <button
-        onClick={() => {
-          userUtilFormHandler("requester", props.mainAppDispatch);
-          mainFormClearHandler(props.mainFormDispatch);
-        }}
-      >
-        Request User Pin
-      </button>
+    <div className="utility">
+      <div className="utility_selector">
+        <button
+          className="utility_button button__control"
+          onClick={() => {
+            userUtilFormHandler("updater", props.mainAppDispatch);
+            mainFormClearHandler(props.mainFormDispatch);
+          }}
+        >
+          Update Your Selection
+        </button>
+        <button
+          className="button__control utility_button"
+          onClick={() => {
+            userUtilFormHandler("deleter", props.mainAppDispatch);
+            mainFormClearHandler(props.mainFormDispatch);
+          }}
+        >
+          Remove Your Spot
+        </button>
+        <button
+          className="button__control utility_button"
+          onClick={() => {
+            userUtilFormHandler("requester", props.mainAppDispatch);
+            mainFormClearHandler(props.mainFormDispatch);
+          }}
+        >
+          Request User Pin
+        </button>
+      </div>
       {props.mainAppState.userUtilFormState === "updater" && (
         <Updater
           // form={props.setUtilForm}
@@ -61,7 +66,7 @@ const UtilityForms = (props: Props) => {
         // formStatusStyle={setUtilFormStatusStyle}
         ></Requester>
       )}
-    </>
+    </div>
   );
 };
 

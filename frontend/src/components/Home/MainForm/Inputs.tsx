@@ -16,7 +16,7 @@ const Inputs = (props: Props) => {
       </label>
       <input
         id="userseats"
-        // className={`inputs__control ${props.inputStatus}`}
+        className={`input__control`}
         type="number"
         min="1"
         max="10"
@@ -28,8 +28,8 @@ const Inputs = (props: Props) => {
         Name
       </label>
       <input
-        // className={`inputs__control ${props.inputStatus}`}
-        type="name"
+        className={`input__control`}
+        type="text"
         name="name"
         value={props.mainFormState.name}
         onChange={(e) => mainFormChangeTextHandler(e, props.mainFormDispatch)}
@@ -38,7 +38,7 @@ const Inputs = (props: Props) => {
         Email
       </label>
       <input
-        // className={`inputs__control ${props.inputStatus}`}
+        className={`input__control`}
         type="email"
         name="email"
         value={props.mainFormState.email}

@@ -1,20 +1,20 @@
-import express from 'express';
-import http from 'http';
-import socketio from 'socket.io';
-import dotenv from 'dotenv';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import chalk from 'chalk';
-import path from 'path';
-import errorHandler from './middleware/error';
-import ICustomRequest from './types';
+import express from "express";
+import http from "http";
+import socketio from "socket.io";
+import dotenv from "dotenv";
+import morgan from "morgan";
+import helmet from "helmet";
+import chalk from "chalk";
+import path from "path";
+import errorHandler from "./middleware/error";
+import ICustomRequest from "./types";
 
 dotenv.config();
 
-import './database/db';
+import "./database/db";
 
-import userRouter from './routes/users';
-import serviceRouter from './routes/services';
+import userRouter from "./routes/users";
+import serviceRouter from "./routes/services";
 
 const app = express();
 const server = http.createServer(app);
@@ -27,19 +27,19 @@ app.use(async (req: ICustomRequest, res, next) => {
 
 app.use(express.json());
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('combined'));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("combined"));
 }
 
 app.use(helmet());
 
-app.use(express.static('./frontend/dist'));
+app.use(express.static("./frontend/build"));
 
-app.use('/api/v5/users', userRouter);
-app.use('/api/v5/services', serviceRouter);
+app.use("/api/v5/users", userRouter);
+app.use("/api/v5/services", serviceRouter);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join('./frontend/dist/index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join("./frontend/build/index.html"));
 });
 
 app.use(errorHandler);

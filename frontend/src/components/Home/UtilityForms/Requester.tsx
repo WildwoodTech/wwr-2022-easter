@@ -24,48 +24,39 @@ const Requester = () => {
   };
 
   return (
-    <div
-    // className={`${styles["UserUtils-Container"]} ${formStatus}`}
-    >
-      <div
-      // className={styles["UserUtils-Header"]}
-      >
-        <div
-        // className={styles["UserUtils-Header__title"]}
-        >
+    <div className={`utility_container ${formStatus}`}>
+      <div className="utility_header">
+        <div className="utility_header-title">
           <p>Request User Pin:</p>
         </div>
         <div
-        // className={styles["UserUtils-Header__close"]}
-        // onClick={() => {
-        //   props.form(false);
-        //   props.formMessage("");
-        // }}
+          className="utility_header-exit"
+          // onClick={() => {
+          //   props.form(false);
+          //   props.formMessage("");
+          // }}
         >
-          {/* <svg
+          <svg
             focusable="false"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-          </svg> */}
+          </svg>
         </div>
       </div>
-      <form
-        // className={styles["UserUtils-Form"]}
-        onSubmit={requestUserPinHandler}
-      >
+      <form className="utility_form" onSubmit={requestUserPinHandler}>
         <label className="label__control" htmlFor="seatsInput">
           Email
         </label>
         <input
           name="email"
-          className="inputs__control"
+          className="input__control"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         ></input>
-        <button className="inputs__button" type="submit">
+        <button className="button__control" type="submit">
           Submit
         </button>
       </form>
