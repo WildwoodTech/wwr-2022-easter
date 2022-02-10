@@ -79,7 +79,7 @@ const MainApp = () => {
             <label className="label__control" htmlFor="children">
               Bringing Children?
             </label>
-            <p>Sixth graders and older will attent main service</p>
+            <p>Sixth graders and older will attend main service</p>
             <input
               name="children"
               checked={mainFormState.children}

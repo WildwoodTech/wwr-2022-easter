@@ -1,10 +1,6 @@
 import userModel from "../models/user";
 import serviceModel from "../models/service";
-import {
-  sendSignUpEmail,
-  sendUpdaterPin,
-  sendUpdateEmail,
-} from "../utils/mailer";
+import Mailer from "../utils/mailer";
 import db from "../database/db";
 import genToken from "../utils/genToken";
 import { ExpressHandler } from "../types";
@@ -83,13 +79,14 @@ export const createUser: ExpressHandler = async (req, res, next) => {
     await session.commitTransaction();
     session.endSession();
     req.io?.emit("userUpdate");
-    // sendSignUpEmail(
-    //   req.body.email,
-    //   req.body.serviceTime,
-    //   req.body.userseats,
-    //   req.body.userpin
-    // );
-    console.log("EMAILED", req.body.email);
+    Mailer(
+      req.body.email!,
+      req.body.name!,
+      "CREATE",
+      req.body.serviceTime!,
+      req.body.userseats!,
+      req.body.userpin!
+    );
 
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
@@ -113,8 +110,14 @@ export const getUserUpdaterPin: ExpressHandler = async (req, res, next) => {
     if (!user) {
       throw new Error("user not found");
     }
-
-    sendUpdaterPin(user.email, user.userpin);
+    Mailer(
+      user.email!,
+      user.name!,
+      "REQUEST",
+      user.serviceTime!,
+      user.userseats!,
+      user.userpin!
+    );
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     next(error);
@@ -180,9 +183,18 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
     await session.commitTransaction();
     session.endSession();
     req.io?.emit("userUpdate");
-    sendUpdateEmail(user.email, user.serviceTime, req.body.userseats, userpin);
+    Mailer(
+      user.email!,
+      user.name!,
+      "UPDATE",
+      user.serviceTime!,
+      user.userseats!,
+      user.userpin!
+    );
     res.status(200).json({ success: true, data: user });
   } catch (error) {
+    console.log(error);
+
     await session.abortTransaction();
     session.endSession();
     next(error);
@@ -280,6 +292,8 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
 export const getStatistics: ExpressHandler = async (req, res, next) => {
   let statsObject: { childrensStatistics: any[] } = { childrensStatistics: [] };
   try {
+    console.log("STATS");
+
     // Get seat total
     // const seatTotal = await User.aggregate([
     //   { $group: { _id: '', total_seats: { $sum: '$seats' } } },
@@ -300,7 +314,7 @@ export const getStatistics: ExpressHandler = async (req, res, next) => {
             threeYears: { $sum: "$threeYears" },
             fourYears: { $sum: "$fourYears" },
             kindergarten: { $sum: "$kindergarten" },
-            wildLife: { $sum: "$wildLife" },
+            wildlife: { $sum: "$wildlife" },
           },
         },
         {
@@ -311,7 +325,7 @@ export const getStatistics: ExpressHandler = async (req, res, next) => {
             threeYears: 1,
             fourYears: 1,
             kindergarten: 1,
-            wildLife: 1,
+            wildlife: 1,
           },
         },
       ]);

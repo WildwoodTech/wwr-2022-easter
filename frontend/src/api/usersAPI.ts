@@ -49,9 +49,9 @@ export const requestUserPinByEmailAPI = async (email: string) => {
 export const updateUserSeatsByPinAPI = async (
   userpin: string,
   userseats: number,
-  serviceid: string
+  newServiceId: string
 ) => {
-  const formData = { userseats, serviceid };
+  const formData = { userseats, newServiceId };
   try {
     const { data } = await axios.put(
       `api/${API_VERSION}/users/utils/${userpin}`,

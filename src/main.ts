@@ -39,7 +39,7 @@ app.use("/api/v5/users", userRouter);
 app.use("/api/v5/services", serviceRouter);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join("./frontend/build/index.html"));
+  res.sendFile(path.join(__dirname + "../../frontend/build/index.html"));
 });
 
 app.use(errorHandler);
