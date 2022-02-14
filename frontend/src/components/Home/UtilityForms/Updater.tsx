@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import { updateUserSeatsByPinAPI } from "../../../api/usersAPI";
+import { userUtilFormHandler } from "../../../utils/reducers/mainAppReducer";
 
 interface Props {
   services: IService[];
+  mainAppDispatch: React.Dispatch<any>;
 }
 
 const Updater = (props: Props) => {
   const [userPin, setUserPin] = useState("");
   const [seats, setSeats] = useState(0);
   const [selectedService, setSelectedService] = useState("");
-  const [formStatus, setFormStatus] = useState("");
 
   const updateUserHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await updateUserSeatsByPinAPI(userPin, seats, selectedService);
-      // setUserPin("");
-      // setSeats("");
-      // setSelectedService("");
       // props.formStatusStyle("form__pass");
       // props.formMessage("Successfully Updated");
       // props.form("");
+      clearFormOnSucces();
     } catch (error) {
       // error handler
       console.log(error);
@@ -28,6 +27,13 @@ const Updater = (props: Props) => {
       // setFormStatus(styles["Form--Error"]);
       // formErrors(error, props.formMessage);
     }
+  };
+
+  // MAY NOT BE NEEDED! CLOSE WHOLE FORM ON SUCCESS WITH MESSAGE!
+  const clearFormOnSucces = () => {
+    setUserPin("");
+    setSeats(0);
+    setSelectedService("");
   };
 
   const serviceInputs = props.services.map((service) => {
@@ -59,17 +65,16 @@ const Updater = (props: Props) => {
   });
 
   return (
-    <div className={`utility_container ${formStatus}`}>
+    <div className={`utility_container ${""}`}>
       <div className="utility_header">
         <div className="utility_header-title">
           <p>Update Selection:</p>
         </div>
         <div
           className="utility_header-exit"
-          // onClick={() => {
-          //   props.form(false);
-          //   props.formMessage("");
-          // }}
+          onClick={() => {
+            userUtilFormHandler("", props.mainAppDispatch);
+          }}
         >
           <svg
             focusable="false"

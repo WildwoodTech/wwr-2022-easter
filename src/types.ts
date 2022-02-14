@@ -11,12 +11,14 @@ export default interface ICustomRequest extends Request {
     serviceTime?: Date;
     userseats?: number;
     userpin?: number;
-    nursery?: number;
-    twoyears?: number;
-    threeyears?: number;
-    fouryears?: number;
-    kindergarten?: number;
-    wildlife?: number;
+    students?: {
+      nursery?: number;
+      twoyears?: number;
+      threeyears?: number;
+      fouryears?: number;
+      kindergarten?: number;
+      wildlife?: number;
+    };
     password?: string;
     pin?: number;
   };

@@ -48,22 +48,25 @@ const UtilityForms = (props: Props) => {
         <Updater
           // form={props.setUtilForm}
           services={props.services}
+          mainAppDispatch={props.mainAppDispatch}
           // formMessage={props.setUtilFormMessage}
           // formStatusStyle={setUtilFormStatusStyle}
         ></Updater>
       )}
       {props.mainAppState.userUtilFormState === "deleter" && (
         <Deleter
-        // form={props.setUtilForm}
-        // formMessage={props.setUtilFormMessage}
-        // formStatusStyle={setUtilFormStatusStyle}
+          mainAppDispatch={props.mainAppDispatch}
+          // form={props.setUtilForm}
+          // formMessage={props.setUtilFormMessage}
+          // formStatusStyle={setUtilFormStatusStyle}
         ></Deleter>
       )}
       {props.mainAppState.userUtilFormState === "requester" && (
         <Requester
-        // form={props.setUtilForm}
-        // formMessage={props.setUtilFormMessage}
-        // formStatusStyle={setUtilFormStatusStyle}
+          mainAppDispatch={props.mainAppDispatch}
+          // form={props.setUtilForm}
+          // formMessage={props.setUtilFormMessage}
+          // formStatusStyle={setUtilFormStatusStyle}
         ></Requester>
       )}
     </div>

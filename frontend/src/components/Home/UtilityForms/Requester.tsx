@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { requestUserPinByEmailAPI } from "../../../api/usersAPI";
+import { userUtilFormHandler } from "../../../utils/reducers/mainAppReducer";
 
-const Requester = () => {
+interface Props {
+  mainAppDispatch: React.Dispatch<any>;
+}
+
+const Requester = (props: Props) => {
   const [email, setEmail] = useState("");
   const [formStatus, setFormStatus] = useState("");
 
@@ -31,10 +36,9 @@ const Requester = () => {
         </div>
         <div
           className="utility_header-exit"
-          // onClick={() => {
-          //   props.form(false);
-          //   props.formMessage("");
-          // }}
+          onClick={() => {
+            userUtilFormHandler("", props.mainAppDispatch);
+          }}
         >
           <svg
             focusable="false"

@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { deleteUserByPinAPI } from "../../../api/usersAPI";
+import { userUtilFormHandler } from "../../../utils/reducers/mainAppReducer";
 
-const Deleter = () => {
+interface Props {
+  mainAppDispatch: React.Dispatch<any>;
+}
+
+const Deleter = (props: Props) => {
   const [userPin, setUserPin] = useState("");
   const [formStatus, setFormStatus] = useState("");
 
@@ -30,10 +35,9 @@ const Deleter = () => {
         </div>
         <div
           className="utility_header-exit"
-          // onClick={() => {
-          //   props.form(false);
-          //   props.formMessage("");
-          // }}
+          onClick={() => {
+            userUtilFormHandler("", props.mainAppDispatch);
+          }}
         >
           <svg
             focusable="false"
