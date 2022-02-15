@@ -25,7 +25,7 @@ export const createUserAPI = async (
 
     return data;
   } catch (error) {
-    throw new Error(`${error}`);
+    throw error;
   }
 };
 
@@ -41,7 +41,7 @@ export const requestUserPinByEmailAPI = async (email: string) => {
 
     return data;
   } catch (error) {
-    throw new Error(`${error}`);
+    throw error;
   }
 };
 
@@ -65,7 +65,7 @@ export const updateUserSeatsByPinAPI = async (
 
     return data;
   } catch (error) {
-    throw new Error(`${error}`);
+    throw error;
   }
 };
 
@@ -81,6 +81,6 @@ export const deleteUserByPinAPI = async (userpin: string) => {
 
     return data;
   } catch (error) {
-    throw new Error(`${error}`);
+    throw error;
   }
 };

@@ -195,8 +195,6 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
     );
     res.status(200).json({ success: true, data: user });
   } catch (error) {
-    console.log(error);
-
     await session.abortTransaction();
     session.endSession();
     next(error);

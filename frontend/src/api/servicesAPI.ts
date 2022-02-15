@@ -17,6 +17,6 @@ export const getServicesAPI = async (): Promise<IService[]> => {
     }
     return data.data;
   } catch (error) {
-    throw new Error(`${error}`);
+    throw error;
   }
 };

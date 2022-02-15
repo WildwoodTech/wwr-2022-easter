@@ -44,6 +44,11 @@ const UtilityForms = (props: Props) => {
           Request User Pin
         </button>
       </div>
+      {props.mainAppState.userUtilFormMessage && (
+        <p className={`utility_status ${props.mainAppState.userUtilFormClass}`}>
+          {props.mainAppState.userUtilFormMessage}
+        </p>
+      )}
       {props.mainAppState.userUtilFormState === "updater" && (
         <Updater
           // form={props.setUtilForm}

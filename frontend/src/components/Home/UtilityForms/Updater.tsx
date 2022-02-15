@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { updateUserSeatsByPinAPI } from "../../../api/usersAPI";
-import { userUtilFormHandler } from "../../../utils/reducers/mainAppReducer";
+import formErrors from "../../../utils/errorHandlers/formErrors";
+import {
+  userUtilFormHandler,
+  userUtilSetFormMessage,
+} from "../../../utils/reducers/mainAppReducer";
 
 interface Props {
   services: IService[];
@@ -20,9 +24,14 @@ const Updater = (props: Props) => {
       // props.formMessage("Successfully Updated");
       // props.form("");
       clearFormOnSucces();
-    } catch (error) {
+      userUtilSetFormMessage(
+        "Successfully Updated",
+        "form__success",
+        props.mainAppDispatch
+      );
+    } catch (error: any) {
       // error handler
-      console.log(error);
+      formErrors(error, props.mainAppDispatch);
       // props.formStatusStyle("form__error");
       // setFormStatus(styles["Form--Error"]);
       // formErrors(error, props.formMessage);

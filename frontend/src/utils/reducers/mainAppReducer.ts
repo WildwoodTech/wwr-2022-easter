@@ -5,6 +5,17 @@ export const mainAppReducer = (state: IMainAppState, action: any) => {
         ...state,
         [action.field]: action.payload,
       };
+    case "SWITCH USERUTIL CLASS":
+      return {
+        ...state,
+        [action.field]: action.payload,
+      };
+    case "SET UTIL MESSAGE AND CLASS":
+      return {
+        ...state,
+        [action.field_message]: action.payload,
+        [action.field_class]: action.payload_two,
+      };
     default:
       return state;
   }
@@ -14,6 +25,7 @@ export const initialMainAppState: IMainAppState = {
   formStatusMessage: "",
   formStatusClass: "",
   userUtilFormState: "",
+  userUtilFormClass: "",
   userUtilFormMessage: "",
 };
 
@@ -25,5 +37,30 @@ export const userUtilFormHandler = (
     type: "SWITCH USERUTIL FORM",
     field: "userUtilFormState",
     payload: payload,
+  });
+};
+
+export const userUtilFormClassHandler = (
+  payload: string,
+  mainAppDispatch: (value: any) => void
+) => {
+  mainAppDispatch({
+    type: "SWITCH USERUTIL CLASS",
+    field: "userUtilFormClass",
+    payload: payload,
+  });
+};
+
+export const userUtilSetFormMessage = (
+  payload: string,
+  payloud_two: "form__success" | "form__error",
+  mainAppDispatch: (value: any) => void
+) => {
+  mainAppDispatch({
+    type: "SET UTIL MESSAGE AND CLASS",
+    field_message: "userUtilFormMessage",
+    field_class: "userUtilFormClass",
+    payload: payload,
+    payload_two: payloud_two,
   });
 };

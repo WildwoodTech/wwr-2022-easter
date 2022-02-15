@@ -8,6 +8,7 @@ import {
 } from "../../utils/reducers/mainAppReducer";
 import {
   initialMainFormState,
+  mainFormClearHandler,
   mainFormReducer,
 } from "../../utils/reducers/mainFormReducer";
 import ChildrenInputs from "./MainForm/ChildrenInputs";
@@ -48,6 +49,7 @@ const MainApp = () => {
     e.preventDefault();
     try {
       await createUserAPI(mainFormState);
+      mainFormClearHandler(mainFormDispatch);
     } catch (error) {
       // error handler
       console.log(error);
