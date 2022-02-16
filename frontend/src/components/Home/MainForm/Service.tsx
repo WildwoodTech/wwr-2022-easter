@@ -1,4 +1,7 @@
-import { userUtilFormHandler } from "../../../utils/reducers/mainAppReducer";
+import {
+  userUtilFormHandler,
+  userUtilSetFormMessage,
+} from "../../../utils/reducers/mainAppReducer";
 import { mainFormChangeTextHandler } from "../../../utils/reducers/mainFormReducer";
 
 interface Props {
@@ -55,6 +58,7 @@ const Service = (props: Props) => {
           onChange={(e) => {
             mainFormChangeTextHandler(e, props.mainFormDispatch);
             userUtilFormHandler("", props.mainAppDispatch);
+            userUtilSetFormMessage("", "form__error", props.mainAppDispatch);
           }}
           disabled={!props.seats || props.seats <= 0}
         />

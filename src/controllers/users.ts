@@ -120,6 +120,7 @@ export const getUserUpdaterPin: ExpressHandler = async (req, res, next) => {
       user.userseats!,
       user.userpin!
     );
+
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     next(error);

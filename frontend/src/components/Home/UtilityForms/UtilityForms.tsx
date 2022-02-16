@@ -1,5 +1,8 @@
 import React from "react";
-import { userUtilFormHandler } from "../../../utils/reducers/mainAppReducer";
+import {
+  userUtilFormHandler,
+  userUtilSetFormMessage,
+} from "../../../utils/reducers/mainAppReducer";
 import { mainFormClearHandler } from "../../../utils/reducers/mainFormReducer";
 import Deleter from "./Deleter";
 import Requester from "./Requester";
@@ -21,6 +24,7 @@ const UtilityForms = (props: Props) => {
           onClick={() => {
             userUtilFormHandler("updater", props.mainAppDispatch);
             mainFormClearHandler(props.mainFormDispatch);
+            userUtilSetFormMessage("", "form__error", props.mainAppDispatch);
           }}
         >
           Update Your Selection
@@ -30,6 +34,7 @@ const UtilityForms = (props: Props) => {
           onClick={() => {
             userUtilFormHandler("deleter", props.mainAppDispatch);
             mainFormClearHandler(props.mainFormDispatch);
+            userUtilSetFormMessage("", "form__error", props.mainAppDispatch);
           }}
         >
           Remove Your Spot
@@ -39,6 +44,7 @@ const UtilityForms = (props: Props) => {
           onClick={() => {
             userUtilFormHandler("requester", props.mainAppDispatch);
             mainFormClearHandler(props.mainFormDispatch);
+            userUtilSetFormMessage("", "form__error", props.mainAppDispatch);
           }}
         >
           Request User Pin

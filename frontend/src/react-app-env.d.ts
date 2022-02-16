@@ -44,6 +44,6 @@ interface IMainAppState {
   formStatusMessage: string;
   formStatusClass: string;
   userUtilFormState: string;
-  userUtilFormClass: string;
   userUtilFormMessage: string;
+  userUtilFormClass: string;
 }

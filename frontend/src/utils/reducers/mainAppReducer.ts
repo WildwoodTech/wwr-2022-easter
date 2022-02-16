@@ -25,8 +25,8 @@ export const initialMainAppState: IMainAppState = {
   formStatusMessage: "",
   formStatusClass: "",
   userUtilFormState: "",
-  userUtilFormClass: "",
   userUtilFormMessage: "",
+  userUtilFormClass: "",
 };
 
 export const userUtilFormHandler = (
@@ -53,7 +53,7 @@ export const userUtilFormClassHandler = (
 
 export const userUtilSetFormMessage = (
   payload: string,
-  payloud_two: "form__success" | "form__error",
+  payload_two: "form__success" | "form__error",
   mainAppDispatch: (value: any) => void
 ) => {
   mainAppDispatch({
@@ -61,6 +61,6 @@ export const userUtilSetFormMessage = (
     field_message: "userUtilFormMessage",
     field_class: "userUtilFormClass",
     payload: payload,
-    payload_two: payloud_two,
+    payload_two: payload_two,
   });
 };
