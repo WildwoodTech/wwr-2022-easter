@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { requestUserPinByEmailAPI } from "../../../api/usersAPI";
-import { userUtilFormHandler } from "../../../utils/reducers/mainAppReducer";
+import formErrors from "../../../utils/errorHandlers/formErrors";
+import {
+  userUtilFormHandler,
+  userUtilSetFormMessage,
+} from "../../../utils/reducers/mainAppReducer";
 
 interface Props {
   mainAppDispatch: React.Dispatch<any>;
@@ -14,17 +18,15 @@ const Requester = (props: Props) => {
     e.preventDefault();
     try {
       await requestUserPinByEmailAPI(email);
-      //   setEmail("");
-      //   props.formStatusStyle("form__pass");
-      //   props.formMessage("Check email for pin");
-      //   props.form("");
+      userUtilSetFormMessage(
+        "Check Email for Pin",
+        "form__success",
+        "util",
+        props.mainAppDispatch
+      );
+      userUtilFormHandler("", props.mainAppDispatch);
     } catch (error) {
-      // handle error
-      console.log(error);
-
-      //   props.formStatusStyle("form__error");
-      //   setFormStatus(styles["Form--Error"]);
-      //   formErrors(error, props.formMessage);
+      formErrors(error, props.mainAppDispatch, "util");
     }
   };
 
@@ -38,6 +40,12 @@ const Requester = (props: Props) => {
           className="utility_header-exit"
           onClick={() => {
             userUtilFormHandler("", props.mainAppDispatch);
+            userUtilSetFormMessage(
+              "",
+              "form__success",
+              "util",
+              props.mainAppDispatch
+            );
           }}
         >
           <svg

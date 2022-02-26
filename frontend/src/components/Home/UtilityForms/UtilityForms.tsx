@@ -24,7 +24,18 @@ const UtilityForms = (props: Props) => {
           onClick={() => {
             userUtilFormHandler("updater", props.mainAppDispatch);
             mainFormClearHandler(props.mainFormDispatch);
-            userUtilSetFormMessage("", "form__error", props.mainAppDispatch);
+            userUtilSetFormMessage(
+              "",
+              "form__error",
+              "util",
+              props.mainAppDispatch
+            );
+            userUtilSetFormMessage(
+              "",
+              "form__error",
+              "main",
+              props.mainAppDispatch
+            );
           }}
         >
           Update Your Selection
@@ -34,7 +45,18 @@ const UtilityForms = (props: Props) => {
           onClick={() => {
             userUtilFormHandler("deleter", props.mainAppDispatch);
             mainFormClearHandler(props.mainFormDispatch);
-            userUtilSetFormMessage("", "form__error", props.mainAppDispatch);
+            userUtilSetFormMessage(
+              "",
+              "form__error",
+              "util",
+              props.mainAppDispatch
+            );
+            userUtilSetFormMessage(
+              "",
+              "form__error",
+              "main",
+              props.mainAppDispatch
+            );
           }}
         >
           Remove Your Spot
@@ -44,7 +66,18 @@ const UtilityForms = (props: Props) => {
           onClick={() => {
             userUtilFormHandler("requester", props.mainAppDispatch);
             mainFormClearHandler(props.mainFormDispatch);
-            userUtilSetFormMessage("", "form__error", props.mainAppDispatch);
+            userUtilSetFormMessage(
+              "",
+              "form__error",
+              "util",
+              props.mainAppDispatch
+            );
+            userUtilSetFormMessage(
+              "",
+              "form__error",
+              "main",
+              props.mainAppDispatch
+            );
           }}
         >
           Request User Pin

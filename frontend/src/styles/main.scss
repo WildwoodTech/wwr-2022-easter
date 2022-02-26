@@ -428,9 +428,16 @@ option {
   color: #d2e0ff;
 }
 
+.utility_status_container {
+  display: flex;
+  justify-content: center;
+}
+
 .utility_status {
-  margin: 0;
+  margin-left: 2%;
+  margin-right: 2%;
   margin-bottom: 15px;
+  max-width: 350px;
 }
 
 @media only screen and (max-width: 600px) {

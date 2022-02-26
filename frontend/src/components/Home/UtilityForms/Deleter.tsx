@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { deleteUserByPinAPI } from "../../../api/usersAPI";
-import { userUtilFormHandler } from "../../../utils/reducers/mainAppReducer";
+import formErrors from "../../../utils/errorHandlers/formErrors";
+import {
+  userUtilFormHandler,
+  userUtilSetFormMessage,
+} from "../../../utils/reducers/mainAppReducer";
 
 interface Props {
   mainAppDispatch: React.Dispatch<any>;
@@ -14,16 +18,15 @@ const Deleter = (props: Props) => {
     e.preventDefault();
     try {
       await deleteUserByPinAPI(userPin);
-      //   setUserPin("");
-      //   props.form("");
-      //   props.formStatusStyle("form__pass");
-      //   props.formMessage("User deleted");
+      userUtilSetFormMessage(
+        "User Removed Successfully",
+        "form__success",
+        "util",
+        props.mainAppDispatch
+      );
+      userUtilFormHandler("", props.mainAppDispatch);
     } catch (error) {
-      // handle error
-      console.log(error);
-      //   props.formStatusStyle("form__error");
-      //   setFormStatus(styles["Form--Error"]);
-      //   formErrors(error, props.formMessage);
+      formErrors(error, props.mainAppDispatch, "util");
     }
   };
 
@@ -37,6 +40,12 @@ const Deleter = (props: Props) => {
           className="utility_header-exit"
           onClick={() => {
             userUtilFormHandler("", props.mainAppDispatch);
+            userUtilSetFormMessage(
+              "",
+              "form__success",
+              "util",
+              props.mainAppDispatch
+            );
           }}
         >
           <svg

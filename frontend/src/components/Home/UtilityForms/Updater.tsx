@@ -20,29 +20,16 @@ const Updater = (props: Props) => {
     e.preventDefault();
     try {
       await updateUserSeatsByPinAPI(userPin, seats, selectedService);
-      // props.formStatusStyle("form__pass");
-      // props.formMessage("Successfully Updated");
-      // props.form("");
-      clearFormOnSucces();
       userUtilSetFormMessage(
-        "Successfully Updated",
+        "Successfully Updated Selection",
         "form__success",
+        "util",
         props.mainAppDispatch
       );
+      userUtilFormHandler("", props.mainAppDispatch);
     } catch (error: any) {
-      // error handler
-      formErrors(error, props.mainAppDispatch);
-      // props.formStatusStyle("form__error");
-      // setFormStatus(styles["Form--Error"]);
-      // formErrors(error, props.formMessage);
+      formErrors(error, props.mainAppDispatch, "util");
     }
-  };
-
-  // MAY NOT BE NEEDED! CLOSE WHOLE FORM ON SUCCESS WITH MESSAGE!
-  const clearFormOnSucces = () => {
-    setUserPin("");
-    setSeats(0);
-    setSelectedService("");
   };
 
   const serviceInputs = props.services.map((service) => {
@@ -83,6 +70,12 @@ const Updater = (props: Props) => {
           className="utility_header-exit"
           onClick={() => {
             userUtilFormHandler("", props.mainAppDispatch);
+            userUtilSetFormMessage(
+              "",
+              "form__success",
+              "util",
+              props.mainAppDispatch
+            );
           }}
         >
           <svg

@@ -26,7 +26,8 @@ const errorHandler = (
     const message = error.message;
     error = new ErrorResponse(message, 406);
   }
-  if (err.message == "Service validation failed") {
+
+  if (err._message == "Service validation failed") {
     const message = `error`;
     error = new ErrorResponse(message, 405);
   }

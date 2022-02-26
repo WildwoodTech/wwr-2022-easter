@@ -58,7 +58,18 @@ const Service = (props: Props) => {
           onChange={(e) => {
             mainFormChangeTextHandler(e, props.mainFormDispatch);
             userUtilFormHandler("", props.mainAppDispatch);
-            userUtilSetFormMessage("", "form__error", props.mainAppDispatch);
+            userUtilSetFormMessage(
+              "",
+              "form__error",
+              "main",
+              props.mainAppDispatch
+            );
+            userUtilSetFormMessage(
+              "",
+              "form__error",
+              "util",
+              props.mainAppDispatch
+            );
           }}
           disabled={!props.seats || props.seats <= 0}
         />

@@ -2,9 +2,11 @@ import { useEffect, useReducer, useState } from "react";
 import socketclient from "socket.io-client";
 import { getServicesAPI } from "../../api/servicesAPI";
 import { createUserAPI } from "../../api/usersAPI";
+import formErrors from "../../utils/errorHandlers/formErrors";
 import {
   initialMainAppState,
   mainAppReducer,
+  userUtilSetFormMessage,
 } from "../../utils/reducers/mainAppReducer";
 import {
   initialMainFormState,
@@ -40,8 +42,12 @@ const MainApp = () => {
       const services = await getServicesAPI();
       setServicesPayload(services);
     } catch (error) {
-      // error handler
-      console.log(error);
+      userUtilSetFormMessage(
+        "Database Error, Try Reloading Page!",
+        "form__error",
+        "main",
+        mainAppDispatch
+      );
     }
   };
 
@@ -50,9 +56,14 @@ const MainApp = () => {
     try {
       await createUserAPI(mainFormState);
       mainFormClearHandler(mainFormDispatch);
+      userUtilSetFormMessage(
+        "Successfully Reserved Selection",
+        "form__success",
+        "main",
+        mainAppDispatch
+      );
     } catch (error) {
-      // error handler
-      console.log(error);
+      formErrors(error, mainAppDispatch, "main");
     }
   };
 
@@ -68,8 +79,10 @@ const MainApp = () => {
           />
         </div>
         {mainAppState.formStatusMessage && (
-          <div>
-            <p>{mainAppState.formStatusMessage}</p>
+          <div className="utility_status_container">
+            <p className={`utility_status ${mainAppState.formStatusClass}`}>
+              {mainAppState.formStatusMessage}
+            </p>
           </div>
         )}
         {mainFormState.serviceId && (

@@ -10,7 +10,7 @@ export const mainAppReducer = (state: IMainAppState, action: any) => {
         ...state,
         [action.field]: action.payload,
       };
-    case "SET UTIL MESSAGE AND CLASS":
+    case "SET FORMSTATUS MESSAGE AND CLASS":
       return {
         ...state,
         [action.field_message]: action.payload,
@@ -54,13 +54,24 @@ export const userUtilFormClassHandler = (
 export const userUtilSetFormMessage = (
   payload: string,
   payload_two: "form__success" | "form__error",
+  form_switcher: "main" | "util",
   mainAppDispatch: (value: any) => void
 ) => {
-  mainAppDispatch({
-    type: "SET UTIL MESSAGE AND CLASS",
-    field_message: "userUtilFormMessage",
-    field_class: "userUtilFormClass",
-    payload: payload,
-    payload_two: payload_two,
-  });
+  if (form_switcher === "main") {
+    mainAppDispatch({
+      type: "SET FORMSTATUS MESSAGE AND CLASS",
+      field_message: "formStatusMessage",
+      field_class: "formStatusClass",
+      payload: payload,
+      payload_two: payload_two,
+    });
+  } else if (form_switcher === "util") {
+    mainAppDispatch({
+      type: "SET FORMSTATUS MESSAGE AND CLASS",
+      field_message: "userUtilFormMessage",
+      field_class: "userUtilFormClass",
+      payload: payload,
+      payload_two: payload_two,
+    });
+  }
 };
