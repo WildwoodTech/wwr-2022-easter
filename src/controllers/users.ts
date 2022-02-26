@@ -81,14 +81,14 @@ export const createUser: ExpressHandler = async (req, res, next) => {
     await session.commitTransaction();
     session.endSession();
     req.io?.emit("userUpdate");
-    // Mailer(
-    //   req.body.email!,
-    //   req.body.name!,
-    //   "CREATE",
-    //   req.body.serviceTime!,
-    //   req.body.userseats!,
-    //   req.body.userpin!
-    // );
+    Mailer(
+      req.body.email!,
+      req.body.name!,
+      "CREATE",
+      req.body.serviceTime!,
+      req.body.userseats!,
+      req.body.userpin!
+    );
 
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
