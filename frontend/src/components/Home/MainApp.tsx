@@ -91,21 +91,28 @@ const MainApp = () => {
               mainFormState={mainFormState}
               mainFormDispatch={mainFormDispatch}
             />
-            <label className="label__control" htmlFor="children">
-              Bringing Children?
-            </label>
-            <p>Sixth graders and older will attend main service</p>
-            <input
-              name="children"
-              checked={mainFormState.children}
-              type="checkbox"
-              className=""
-              onChange={() => {
-                mainFormDispatch({
-                  type: "TOGGLE CHILDERN FORM",
-                });
-              }}
-            ></input>
+            <div className="home_main-form-children-switcher">
+              <label
+                className="home_main-form-children-switcher-label"
+                htmlFor="children"
+              >
+                Bringing Children?
+              </label>
+              <input
+                className="utility_checkbox"
+                name="children"
+                checked={mainFormState.children}
+                type="checkbox"
+                onChange={() => {
+                  mainFormDispatch({
+                    type: "TOGGLE CHILDERN FORM",
+                  });
+                }}
+              ></input>
+            </div>
+            <p className="home_main-form-children-info">
+              Sixth graders and older will attend main service
+            </p>
             {mainFormState.children && (
               <ChildrenInputs mainFormDispatch={mainFormDispatch} />
             )}

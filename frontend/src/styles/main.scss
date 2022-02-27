@@ -368,6 +368,22 @@ option {
   user-select: none;
 }
 
+.home_main-form-children-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.home_main-form-children-switcher-label {
+  color: #d2e0ff;
+}
+
+.home_main-form-children-info {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
 @media only screen and (max-width: 600px) {
   .home_main-form-inputs {
     grid-template-columns: 275px;

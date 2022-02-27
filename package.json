@@ -1,6 +1,6 @@
 {
   "name": "wildwood_reservation",
-  "version": "3.0.0",
+  "version": "5.0.0",
   "description": "Wildwood Reservation Site",
   "scripts": {
     "build": "npm i && cd frontend && npm i && npm run build",
