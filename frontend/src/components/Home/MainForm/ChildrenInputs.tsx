@@ -2,6 +2,7 @@ import { mainFormChangeStudentNumberHandler } from "../../../utils/reducers/main
 
 interface Props {
   mainFormDispatch: React.Dispatch<any>;
+  mainAppState: IMainAppState;
 }
 
 const ChildrenInputs = (props: Props) => {
@@ -11,7 +12,9 @@ const ChildrenInputs = (props: Props) => {
         How many 0 - 23 months old?
       </label>
       <select
-        className={`select__control`}
+        className={`select__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
@@ -30,7 +33,9 @@ const ChildrenInputs = (props: Props) => {
         How many 2 year olds?
       </label>
       <select
-        className={`select__control`}
+        className={`select__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
@@ -49,7 +54,9 @@ const ChildrenInputs = (props: Props) => {
         How many 3 year olds?
       </label>
       <select
-        className={`select__control`}
+        className={`select__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
@@ -68,7 +75,9 @@ const ChildrenInputs = (props: Props) => {
         How many 4 year olds?
       </label>
       <select
-        className={`select__control`}
+        className={`select__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
@@ -87,7 +96,9 @@ const ChildrenInputs = (props: Props) => {
         How many 5 years old - Kindergarten?
       </label>
       <select
-        className={`select__control`}
+        className={`select__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }
@@ -106,7 +117,9 @@ const ChildrenInputs = (props: Props) => {
         How many in 1st - 5th grade?
       </label>
       <select
-        className={`select__control`}
+        className={`select__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         onChange={(e) =>
           mainFormChangeStudentNumberHandler(e, props.mainFormDispatch)
         }

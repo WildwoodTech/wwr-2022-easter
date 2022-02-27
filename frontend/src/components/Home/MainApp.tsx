@@ -69,7 +69,7 @@ const MainApp = () => {
 
   return (
     <div className="home_app">
-      <form className="home_main-form " onSubmit={mainFormSubmit}>
+      <form className="home_main-form" onSubmit={mainFormSubmit}>
         <div className="home_main-form-service-selector">
           <Services
             services={servicesPayload}
@@ -90,6 +90,7 @@ const MainApp = () => {
             <Inputs
               mainFormState={mainFormState}
               mainFormDispatch={mainFormDispatch}
+              mainAppState={mainAppState}
             />
             <div className="home_main-form-children-switcher">
               <label
@@ -114,7 +115,10 @@ const MainApp = () => {
               Sixth graders and older will attend main service
             </p>
             {mainFormState.children && (
-              <ChildrenInputs mainFormDispatch={mainFormDispatch} />
+              <ChildrenInputs
+                mainFormDispatch={mainFormDispatch}
+                mainAppState={mainAppState}
+              />
             )}
             <button className="button__control" type="submit">
               Reserve

@@ -6,6 +6,7 @@ import {
 interface Props {
   mainFormState: IServiceFormState;
   mainFormDispatch: React.Dispatch<any>;
+  mainAppState: IMainAppState;
 }
 
 const Inputs = (props: Props) => {
@@ -16,7 +17,9 @@ const Inputs = (props: Props) => {
       </label>
       <input
         id="userseats"
-        className={`input__control`}
+        className={`input__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         type="number"
         min="1"
         max="10"
@@ -28,7 +31,9 @@ const Inputs = (props: Props) => {
         Name
       </label>
       <input
-        className={`input__control`}
+        className={`input__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         type="text"
         name="name"
         value={props.mainFormState.name}
@@ -38,7 +43,9 @@ const Inputs = (props: Props) => {
         Email
       </label>
       <input
-        className={`input__control`}
+        className={`input__control ${
+          props.mainAppState.formStatusMessage && "input__error"
+        }`}
         type="email"
         name="email"
         value={props.mainFormState.email}

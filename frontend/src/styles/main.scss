@@ -116,14 +116,6 @@ option {
   }
 }
 
-.input__error {
-  border: 1px solid v.$form-error-border;
-
-  &::placeholder {
-    color: #c4c4c4;
-  }
-}
-
 .select__control {
   background-color: #0e0e0e6b;
   color: #ffffff;
@@ -145,6 +137,14 @@ option {
   &:hover {
     outline: 0;
     box-shadow: 0 0 0 0.2rem v.$select-box-shadow;
+  }
+}
+
+.input__error {
+  border: 1px solid v.$form-error-border;
+
+  &::placeholder {
+    color: #c4c4c4;
   }
 }
 
