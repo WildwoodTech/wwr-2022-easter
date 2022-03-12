@@ -1,10 +1,11 @@
-@use "variables" as v;
+@use 'variables' as v;
 
 html {
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   -webkit-tap-highlight-color: transparent;
   color: v.$main-font;
+  min-height: 100vh;
   background: v.$mainbackground;
 }
 
@@ -549,7 +550,7 @@ option {
   box-sizing: content-box;
   overflow: hidden;
   &:before {
-    content: "";
+    content: '';
     display: block;
     box-sizing: content-box;
     width: 16px;
@@ -573,7 +574,7 @@ option {
     }
   }
   &:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     box-sizing: content-box;
@@ -587,7 +588,7 @@ option {
     transform: translate(-50%, -50%) scale(0);
   }
 }
-.utility_checkbox[type="checkbox"] {
+.utility_checkbox[type='checkbox'] {
   &:before {
     border-radius: 4px;
   }
@@ -607,7 +608,7 @@ option {
     }
   }
 }
-.utility_checkbox[type="checkbox"].filled {
+.utility_checkbox[type='checkbox'].filled {
   &:before {
     border-radius: 4px;
     transition: 0.2s border-color ease, 0.2s background-color ease;
