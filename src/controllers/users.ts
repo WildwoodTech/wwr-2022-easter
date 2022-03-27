@@ -1,9 +1,9 @@
-import userModel from "../models/user";
-import serviceModel from "../models/service";
-import Mailer from "../utils/mailer";
-import db from "../database/db";
-import genToken from "../utils/genToken";
-import { ExpressHandler } from "../types";
+import userModel from '../models/user';
+import serviceModel from '../models/service';
+import Mailer from '../utils/mailer';
+import db from '../database/db';
+import genToken from '../utils/genToken';
+import { ExpressHandler } from '../types';
 
 // @desc    Get all users
 // @route   GET /api/v5/users
@@ -80,11 +80,11 @@ export const createUser: ExpressHandler = async (req, res, next) => {
 
     await session.commitTransaction();
     session.endSession();
-    req.io?.emit("userUpdate");
+    req.io?.emit('userUpdate');
     Mailer(
       req.body.email!,
       req.body.name!,
-      "CREATE",
+      'CREATE',
       req.body.serviceTime!,
       req.body.userseats!,
       req.body.userpin!
@@ -110,12 +110,12 @@ export const getUserUpdaterPin: ExpressHandler = async (req, res, next) => {
 
     const user = await userModel.findOne({ email: useremail });
     if (!user) {
-      throw new Error("user not found");
+      throw new Error('user not found');
     }
     Mailer(
       user.email!,
       user.name!,
-      "REQUEST",
+      'REQUEST',
       user.serviceTime!,
       user.userseats!,
       user.userpin!
@@ -141,17 +141,17 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
   try {
     const userpin = parseInt(req.params.userpin);
     if (!userpin) {
-      throw new Error("missing userpin");
+      throw new Error('missing userpin');
     }
 
     if (!req.body.newServiceId || !req.body.userseats) {
-      throw new Error("missing data");
+      throw new Error('missing data');
     }
 
     // find user by their updater pin
     const user = await userModel.findOne({ userpin: userpin });
     if (!user) {
-      throw new Error("user with that pin not found");
+      throw new Error('user with that pin not found');
     }
 
     // find the service the user is 'currently' signed up for
@@ -185,11 +185,11 @@ export const updateUserSeatsByUpdaterPin: ExpressHandler = async (
     await user.save({ session });
     await session.commitTransaction();
     session.endSession();
-    req.io?.emit("userUpdate");
+    req.io?.emit('userUpdate');
     Mailer(
       user.email!,
       user.name!,
-      "UPDATE",
+      'UPDATE',
       user.serviceTime!,
       user.userseats!,
       user.userpin!
@@ -212,7 +212,7 @@ export const deleteUser: ExpressHandler = async (req, res, next) => {
   try {
     const userid = req.params.id;
     if (!userid) {
-      throw new Error("missing id");
+      throw new Error('missing id');
     }
 
     const user = await userModel.findByIdAndDelete([userid], {
@@ -232,7 +232,7 @@ export const deleteUser: ExpressHandler = async (req, res, next) => {
 
     await session.commitTransaction();
     session.endSession();
-    req.io?.emit("userUpdate");
+    req.io?.emit('userUpdate');
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
     await session.abortTransaction();
@@ -255,7 +255,7 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
   try {
     const userpin = parseInt(req.params.userpin);
     if (!userpin) {
-      throw new Error("missing userpin");
+      throw new Error('missing userpin');
     }
 
     const user = await userModel.findOneAndDelete(
@@ -265,7 +265,7 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
       { session }
     );
     if (!user) {
-      throw new Error("user with that pin not found");
+      throw new Error('user with that pin not found');
     }
 
     const service = await serviceModel.findById(user.serviceId);
@@ -278,7 +278,7 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
 
     await session.commitTransaction();
     session.endSession();
-    req.io?.emit("userUpdate");
+    req.io?.emit('userUpdate');
     res.status(200).json({ success: true, data: user, service });
   } catch (error) {
     await session.abortTransaction();
@@ -293,8 +293,6 @@ export const deleteUserByUpdaterPin: ExpressHandler = async (
 export const getStatistics: ExpressHandler = async (req, res, next) => {
   let statsObject: { childrensStatistics: any[] } = { childrensStatistics: [] };
   try {
-    console.log("STATS");
-
     // Get seat total
     // const seatTotal = await User.aggregate([
     //   { $group: { _id: '', total_seats: { $sum: '$seats' } } },
@@ -309,34 +307,34 @@ export const getStatistics: ExpressHandler = async (req, res, next) => {
         { $match: { serviceId: `${service._id}` } },
         {
           $group: {
-            _id: "",
-            nursery: { $sum: "$nursery" },
-            twoYears: { $sum: "$twoYears" },
-            threeYears: { $sum: "$threeYears" },
-            fourYears: { $sum: "$fourYears" },
-            kindergarten: { $sum: "$kindergarten" },
-            wildlife: { $sum: "$wildlife" },
+            _id: '',
+            nursery: { $sum: '$nursery' },
+            twoyears: { $sum: '$twoyears' },
+            threeyears: { $sum: '$threeyears' },
+            fouryears: { $sum: '$fouryears' },
+            kindergarten: { $sum: '$kindergarten' },
+            wildlife: { $sum: '$wildlife' },
           },
         },
         {
           $project: {
             _id: 0,
             nursery: 1,
-            twoYears: 1,
-            threeYears: 1,
-            fourYears: 1,
+            twoyears: 1,
+            threeyears: 1,
+            fouryears: 1,
             kindergarten: 1,
             wildlife: 1,
           },
         },
       ]);
-      const serviceTime = service.time.toLocaleDateString("en-US", {
-        timeZone: "America/Los_Angeles",
-        month: "long",
-        weekday: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
+      const serviceTime = service.time.toLocaleDateString('en-US', {
+        timeZone: 'America/Los_Angeles',
+        month: 'long',
+        weekday: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
       });
       statsObject.childrensStatistics.push({
         service: serviceTime,

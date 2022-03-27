@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-import "./Stats.scss";
+import './Stats.scss';
 
 interface IStat {
   service: string;
   signUps: {
     nursery: number;
-    twoYears: number;
-    threeYears: number;
-    fourYears: number;
+    twoyears: number;
+    threeyears: number;
+    fouryears: number;
     kindergarten: number;
     wildlife: number;
   };
@@ -17,20 +17,20 @@ interface IStat {
 
 const Stats = () => {
   const [logged, setLogged] = useState(false);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const [stats, setStats] = useState<IStat[]>([]);
-  const [formErrorMessage, setFormErrorMessage] = useState("");
+  const [formErrorMessage, setFormErrorMessage] = useState('');
 
   const getStats = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const data = await axios.post("/api/v5/users/stats", {
+      const data = await axios.post('/api/v5/users/stats', {
         password: password,
       });
       setStats(data.data.childrensStatistics);
       setLogged(true);
     } catch (error) {
-      setFormErrorMessage("Password Incorrect");
+      setFormErrorMessage('Password Incorrect');
     }
   };
 
@@ -40,9 +40,9 @@ const Stats = () => {
         <div className="stats_service">{stat?.service}</div>
         <div className="stats_signups">
           <p>Nursery: {stat.signUps?.nursery}</p>
-          <p>Two Years: {stat.signUps?.twoYears}</p>
-          <p>Three Years: {stat.signUps?.threeYears}</p>
-          <p>Four Years:{stat.signUps?.fourYears}</p>
+          <p>Two Years: {stat.signUps?.twoyears}</p>
+          <p>Three Years: {stat.signUps?.threeyears}</p>
+          <p>Four Years:{stat.signUps?.fouryears}</p>
           <p>5 - Kindergarten: {stat.signUps?.kindergarten}</p>
           <p>Wildlife: {stat.signUps?.wildlife}</p>
         </div>
